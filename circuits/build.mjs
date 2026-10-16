@@ -1,0 +1,14 @@
+import {spawnSync} from 'node:child_process';
+import {mkdirSync} from 'node:fs';
+import {randomBytes} from 'node:crypto';
+const run=(bin,args)=>{const r=spawnSync(bin,args,{stdio:'inherit'});if(r.status!==0)process.exit(r.status||1);};
+mkdirSync('build',{recursive:true});
+run(process.execPath,['generate-circuit.mjs']);
+run('./node_modules/.bin/circom2',['private_payment.circom','--r1cs','--wasm','--sym','--prime','bls12381','-o','build']);
+const s=(...a)=>run('./node_modules/.bin/snarkjs',a);
+s('powersoftau','new','bls12381','12','build/pot12_0000.ptau');
+s('powersoftau','contribute','build/pot12_0000.ptau','build/pot12_0001.ptau','--name=Pacta-local-demo','-e='+randomBytes(64).toString('hex'));
+s('powersoftau','prepare','phase2','build/pot12_0001.ptau','build/pot12_final.ptau');
+s('groth16','setup','build/private_payment.r1cs','build/pot12_final.ptau','build/private_payment_0000.zkey');
+s('zkey','contribute','build/private_payment_0000.zkey','build/private_payment.zkey','--name=Pacta-local-demo','-e='+randomBytes(64).toString('hex'));
+s('zkey','export','verificationkey','build/private_payment.zkey','build/verification_key.json');

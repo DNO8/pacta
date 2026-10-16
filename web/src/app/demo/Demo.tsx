@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
+const TallerPagoPrivado = dynamic(() => import("../pago-privado/TallerPagoPrivado"), { ssr: false });
 import { useState, type ReactNode } from "react";
 import {
   compararConSello,
@@ -43,6 +45,7 @@ function pasoActual(s: EstadoDemo): number {
 function Escena() {
   const { s, sinPasskey, setSinPasskey, sinRed, setSinRed, reiniciar } = useDemo();
   const paso = pasoActual(s);
+  const [mostrarPagoPrivado, setMostrarPagoPrivado] = useState(false);
   return (
     <div className="recorrido">
       <div className="demo-head">
@@ -87,6 +90,15 @@ function Escena() {
         El Sello prueba que el documento existía en esa fecha y que nadie lo cambió. La identidad de las Partes la verifica
         el Integrador con su propio KYC, que la demo no simula. <Link href="/#limites">Alcance legal</Link>
       </p>
+      {s.documento && estaCompleto(s.documento) && s.sello && (
+        <section aria-label="Pago privado experimental del préstamo">
+          <button className="btn" onClick={() => setMostrarPagoPrivado(!mostrarPagoPrivado)}>
+            {mostrarPagoPrivado ? "Ocultar laboratorio de pago" : "Pagar cuota de forma privada · Testnet"}
+          </button>
+          <p className="small demo-limite">Prueba técnica de 1 XLM, independiente del monto y moneda del préstamo. No cambia su Estado ni su Sello.</p>
+          {mostrarPagoPrivado && <TallerPagoPrivado embedded />}
+        </section>
+      )}
       <details className="ajustes small">
         <summary>Ajustes de la presentación</summary>
         <label>

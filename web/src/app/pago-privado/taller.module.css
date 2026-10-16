@@ -1,0 +1,32 @@
+.workshop { max-width: 65rem; margin: 2.5rem auto 0; }
+.back { font-size: .9rem; }
+.header { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+.header h1 { max-width: 16ch; font-size: clamp(2.5rem, 6vw, 4.5rem); }
+.lead { max-width: 42rem; color: var(--ink-soft); font-size: 1.15rem; }
+.eyebrow { color: var(--lacre); font: .74rem ui-monospace, monospace; text-transform: uppercase; letter-spacing: .13em; margin: 0 0 1rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .7rem 2rem; margin: 1.5rem 0 0; font-size: .9rem; }
+.facts span { display: block; color: var(--ink-soft); font-size: .75rem; }
+.status { border: 1px solid var(--rule); border-left: 4px solid var(--lacre); padding: 1.3rem 1.5rem; margin: 1.5rem 0; background: var(--paper-deep); }
+.status h2 { margin: 0 0 .5rem; font-size: 1.15rem; }
+.status p { font-size: .95rem; margin: 0; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(15rem, 1fr); gap: 2.5rem; align-items: start; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+.step { position: relative; padding: 1.4rem 0 1.5rem 3.3rem; border-bottom: 1px solid var(--rule); }
+.step::before { counter-increment: step; content: "0" counter(step); position: absolute; left: 0; top: 1.5rem; color: var(--lacre); font: .85rem ui-monospace, monospace; }
+.step h2 { font-size: 1.25rem; margin: 0 0 .6rem; }
+.step p { color: var(--ink-soft); font-size: .95rem; }
+.step button { margin-top: .5rem; }
+.step label { display: block; margin: .8rem 0; font-size: .9rem; }
+.step input[type=text] { display: block; width: 100%; margin-top: .4rem; border: 1px solid var(--rule); padding: .7rem; font: .8rem ui-monospace, monospace; background: var(--paper); color: var(--ink); border-radius: 3px; }
+.step input[type=checkbox] { margin-right: .5rem; accent-color: var(--lacre); }
+.aside { border: 1px solid var(--rule); padding: 1.5rem; margin-top: 1.4rem; }
+.aside h2 { font-size: 1.2rem; margin: 0 0 1rem; }
+.aside h3 { font-size: .95rem; margin-top: 1.3rem; }
+.aside p, .aside li { font-size: .85rem; color: var(--ink-soft); }
+.aside ul { padding-left: 1.1rem; }
+.aside li { margin: .5rem 0; }
+.code { font: .72rem ui-monospace, monospace; overflow-wrap: anywhere; }
+.result { padding: .8rem; border: 1px solid var(--rule); margin: .8rem 0; font-size: .85rem; overflow-wrap: anywhere; }
+.error { border-left: 3px solid var(--lacre); padding: .8rem 1rem; margin: 1rem 0; color: var(--lacre); }
+.footer { margin-top: 2.5rem; border-top: 1px solid var(--rule); padding-top: 1.5rem; color: var(--ink-soft); font-size: .85rem; }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; gap: 1rem; } .workshop { margin-top: 1.5rem; } .header { padding-top: 1.5rem; } .step { padding-left: 2.5rem; } }

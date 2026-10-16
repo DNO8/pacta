@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "network": "TESTNET",
+  "networkPassphrase": "Test SDF Network ; September 2015",
+  "rpcUrl": "https://soroban-testnet.stellar.org",
+  "poolId": "CACXHOCIHYRM4WZSDBVFK5AMSXXUOM62QT76L6EIFG7DZQZMBAKCE4OL",
+  "assetId": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+  "denominationStroops": "10000000",
+  "proofSystem": "Groth16 / BLS12-381",
+  "wasmSha256": "2e29a1e13b9c2f46aa9af0614a13baf2ad1ba0d8a51bdeacf50c70078ae973c3",
+  "zkeySha256": "8ea4a7da2ac5e2790abc719e243f6d22aab34c843a027ae5c1cad354dd3c85ff",
+  "verificationKeySha256": "8416e4e82488b4b37e13624f22e32ab0e5b46d555d61daea64bc1e5f3737d970",
+  "deploymentTx": "fd81a26ac9b7e45908b222a3d9e19ad9909a170d125a2c0a39420a30be650134",
+  "integrationVerifiedAt": "2026-10-16T22:10:45.474Z",
+  "readerAccount": "GD42HRPR5OKXSZQE4LW2AKLXUJJJIATQFQCRBRX44P6U3XG3FN73DYPD"
+}

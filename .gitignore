@@ -1,0 +1,8 @@
+**/node_modules/
+contracts/target/
+circuits/build/
+.env*
+!.env.example
+.vercel/
+
+contracts/private-pool/test_snapshots/
