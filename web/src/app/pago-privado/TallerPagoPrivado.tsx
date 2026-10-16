@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./taller.module.css";
+import TransactionHashLink from "./TransactionHashLink";
 import { createNote, createDemoRecipient, deposit, prove, withdraw, verify, validateNote, type PrivateNote, type DepositReceipt, type PrivateProof, type PaymentReceipt } from "@/lib/private-payment/client";
 
 type Configuracion = {
@@ -150,7 +151,7 @@ export default function TallerPagoPrivado({ embedded = false }: { embedded?: boo
             <p>Tu nota corresponde a 1 XLM de Testnet. Para preparar el taller se pueden crear hasta tres notas sintéticas adicionales desde la misma cuenta efímera: hasta cuatro depósitos de 1 XLM, hasta 4 XLM de prueba en total. Estas notas no representan participantes independientes y no aportan anonimato entre personas. La cadena registra cada depósito y su compromiso criptográfico; no recibe el Documento completo, el identificador del contrato ni el número de cuota.</p>
             <button className="btn" disabled={locked || !note || !saved || Boolean(depositReceipt)} onClick={() => run("Depositando en Testnet", async () => { if (note) setDepositReceipt(await deposit(note)); })}>Preparar pool de prueba (hasta 4 depósitos)</button>
             {imported && <p className={styles.result}>Nota recuperada: preparar el grupo consulta primero la cadena y no repite tu depósito.</p>}
-            {depositReceipt && <p className={styles.result}>Depósito localizado en el pool. {depositReceipt.ledger ? `Confirmado en ledger ${depositReceipt.ledger}.` : "Recuperado desde el estado de la cadena."} Transacción: <span className={styles.code}>{depositReceipt.txHash}</span></p>}
+            {depositReceipt && <p className={styles.result}>Depósito localizado en el pool. {depositReceipt.ledger ? `Confirmado en ledger ${depositReceipt.ledger}.` : "Recuperado desde el estado de la cadena."} Transacción: <TransactionHashLink hash={depositReceipt.txHash} /></p>}
           </li>
           <li className={styles.step}>
             <h2>Generar la prueba localmente</h2>
@@ -165,13 +166,13 @@ export default function TallerPagoPrivado({ embedded = false }: { embedded?: boo
             <h2>Retirar al destinatario</h2>
             <p>El pool verifica la prueba y evita reutilizar la misma nota mediante un nullifier público. Solo una ejecución válida puede liberar los fondos.</p>
             <button className="btn" disabled={locked || !proof || !validRecipient || Boolean(txHash)} onClick={() => run("Enviando retiro", async () => { if (proof) setTxHash((await withdraw(proof, recipient.trim())).txHash); })}>Enviar retiro a Testnet</button>
-            {txHash && <p className={styles.result}>Retiro enviado, pendiente de comprobación independiente. Transacción: <span className={styles.code}>{txHash}</span></p>}
+            {txHash && <p className={styles.result}>Retiro enviado, pendiente de comprobación independiente. Transacción: <TransactionHashLink hash={txHash} /></p>}
           </li>
           <li className={styles.step}>
             <h2>Comprobar en el ledger</h2>
             <p>La confirmación requiere consultar Stellar de forma independiente y verificar el resultado del retiro. Una prueba generada o una transacción enviada todavía no son un pago confirmado.</p>
             <button className="btn" disabled={locked || !txHash || Boolean(receipt)} onClick={() => run("Consultando Stellar", async () => setReceipt(await verify(txHash, recipient.trim())))}>Consultar confirmación independiente</button>
-            {receipt?.verified === true && <p className={styles.result}>Retiro comprobado: {receipt.amount} XLM de Testnet, ledger {receipt.ledger}, destinatario <span className={styles.code}>{receipt.recipient}</span>. Esta confirmación no determina el Estado del préstamo.</p>}
+            {receipt?.verified === true && <p className={styles.result}>Retiro comprobado: {receipt.amount} XLM de Testnet, ledger {receipt.ledger}, destinatario <span className={styles.code}>{receipt.recipient}</span>. Transacción: <TransactionHashLink hash={receipt.txHash} />. Esta confirmación no determina el Estado del préstamo.</p>}
           </li>
         </ol>
 
