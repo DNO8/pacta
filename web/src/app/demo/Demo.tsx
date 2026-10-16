@@ -46,6 +46,14 @@ function Escena() {
   const { s, sinPasskey, setSinPasskey, sinRed, setSinRed, reiniciar } = useDemo();
   const paso = pasoActual(s);
   const [mostrarPagoPrivado, setMostrarPagoPrivado] = useState(false);
+  const [pagoPrivadoAbierto, setPagoPrivadoAbierto] = useState(false);
+
+  function empezarDeNuevo() {
+    if (pagoPrivadoAbierto && !window.confirm("Reiniciar elimina la nota y la prueba de esta pestaña. Guarda antes tu nota privada y cualquier hash de transacción. No cancela operaciones ya enviadas a Testnet. ¿Reiniciar?")) return;
+    setMostrarPagoPrivado(false);
+    setPagoPrivadoAbierto(false);
+    reiniciar();
+  }
   return (
     <div className="recorrido">
       <div className="demo-head">
@@ -53,7 +61,7 @@ function Escena() {
           <p className="kicker">Demo · testnet · sin valor real</p>
           <h1>Ana le presta a Larry</h1>
         </div>
-        <button className="btn" onClick={reiniciar} disabled={paso === 1}>
+        <button className="btn" onClick={empezarDeNuevo} disabled={paso === 1 || Boolean(s.ocupado)}>
           Empezar de nuevo
         </button>
       </div>
@@ -92,11 +100,15 @@ function Escena() {
       </p>
       {s.documento && estaCompleto(s.documento) && s.sello && (
         <section aria-label="Pago privado experimental del préstamo">
-          <button className="btn" onClick={() => setMostrarPagoPrivado(!mostrarPagoPrivado)}>
+          <button className="btn" onClick={() => { setPagoPrivadoAbierto(true); setMostrarPagoPrivado(!mostrarPagoPrivado); }}>
             {mostrarPagoPrivado ? "Ocultar laboratorio de pago" : "Pagar cuota de forma privada · Testnet"}
           </button>
           <p className="small demo-limite">Prueba técnica de 1 XLM, independiente del monto y moneda del préstamo. No cambia su Estado ni su Sello.</p>
-          {mostrarPagoPrivado && <TallerPagoPrivado embedded />}
+          {pagoPrivadoAbierto && (
+            <div hidden={!mostrarPagoPrivado}>
+              <TallerPagoPrivado embedded />
+            </div>
+          )}
         </section>
       )}
       <details className="ajustes small">

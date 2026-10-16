@@ -8,6 +8,8 @@
 - Seal specification (recompute it without our SDK): [`docs/especificacion-sello.md`](docs/especificacion-sello.md)
 - Integrator guide: [`docs/guia-integrador.md`](docs/guia-integrador.md)
 - Domain language: [`CONTEXT.md`](CONTEXT.md)
+- Manual Vercel deployment: [`docs/despliegue-vercel.md`](docs/despliegue-vercel.md)
+- Experimental private payment: [`docs/experimentos/pago-privado-testnet.md`](docs/experimentos/pago-privado-testnet.md)
 - License: Apache-2.0 ([`LICENSE`](LICENSE))
 
 The rest of this document is in Spanish.
@@ -36,7 +38,8 @@ Plantillas según el estándar abierto del Accord Project.
 La demo muestra el préstamo de Ana a Larry paso a paso, en dos teléfonos:
 Ana propone y firma, Larry firma, la app sella en testnet y el sello se
 comprueba ahí mismo, incluido qué pasa si alguien cambia el monto. No simula
-el KYC ni usa los módulos opcionales (custodia, borrado, pago). Código en [`web/`](web/);
+el KYC ni usa custodia ni borrado. Después del sellado permite abrir un laboratorio
+opcional de pago privado: 1 XLM de Testnet, independiente del monto del préstamo. Código en [`web/`](web/);
 lenguaje del dominio en [`CONTEXT.md`](CONTEXT.md). El verificador está en `/verificar`
 y la demo en `/demo`.
 
@@ -56,13 +59,13 @@ Para quien integra: [`docs/especificacion-sello.md`](docs/especificacion-sello.m
 Implementado (código en `web/packages/sdk/src`):
 - Núcleo: plantilla versionada (préstamo 1.2.0, en formato Accord Project), documento, firmas (clave por contrato, autorización con passkey), Sello, anclaje en Stellar, Respaldo del contrato y verificador.
 - Módulos opcionales: custodia cifrada con clave repartida 2 de 3, bloqueo y negativa fundada ante una solicitud de borrado de una sola Parte, y pago de prueba en testnet.
-- Aplicación de ejemplo: la demo guiada y el verificador, en testnet. No usa los módulos opcionales.
+- Aplicación de ejemplo: la demo guiada y el verificador, en testnet; laboratorio opcional de pago privado con Groth16/BLS12-381 y pool Soroban experimental. No usa custodia ni borrado.
 
 Pendiente:
 - Mainnet (hoy todo corre en testnet, que se reinicia: los sellos de la demo no son permanentes).
 - Paquete publicado en npm (`@pacta/sdk` vive hoy dentro del repositorio).
 - Caso en USDC.
-- Módulo ejecutable en Soroban.
+- Módulo del protocolo de acuerdos ejecutable en Soroban (el pool de pago experimental sí está desplegado en Testnet).
 - Más plantillas.
 - Un Integrador real.
 
